@@ -1,19 +1,27 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 
 export interface Movie {
-  id: number;
-  text: string;
-  active: boolean;
-  done: boolean;
+    id: number;
+    film: string;
+    year: string;
+    audience_score_percent: string;
+    genre: string;
+    lead_studio: string;
+    profitability: string;
+    rotten_tomatoes_percent: string;
+    worldwide_gross_usd: string;
+}
+export interface MoviePayload {
+    movies: Movie[];
 }
 
 export const movieApi = createApi({
-  reducerPath: "todoApi",
-  baseQuery: fetchBaseQuery({ baseUrl: "http://localhost:4000/" }),
+  reducerPath: "movieApi",
+  baseQuery: fetchBaseQuery({ baseUrl: "http://localhost:8000/" }),
   tagTypes: ["Movies"],
   endpoints: (builder) => ({
-    getAll: builder.query<Movie[], void>({
-      query: () => `movies`,
+    getAll: builder.query<MoviePayload, void>({
+      query: () => `movies/`,
       providesTags: [{ type: "Movies", id: "LIST" }],
     }),
     addMovie: builder.mutation<string, string>({
@@ -29,21 +37,21 @@ export const movieApi = createApi({
       invalidatesTags: [{ type: "Movies", id: "LIST" }],
     }),
     updateMovie: builder.mutation<Movie, Movie>({
-      query(todo) {
+      query(movie) {
         return {
-          url: `movies/${todo.id}`,
+          url: `movies/${movie.id}`,
           method: "PUT",
-          body: todo,
+          body: movie,
         };
       },
       invalidatesTags: [{ type: "Movies", id: "LIST" }],
     }),
     deleteMovie: builder.mutation<Movie, Movie>({
-      query(todo) {
+      query(movie) {
         return {
-          url: `movies/${todo.id}`,
+          url: `movies/${movie.id}`,
           method: "DELETE",
-          body: todo,
+          body: movie,
         };
       },
       invalidatesTags: [{ type: "Movies", id: "LIST" }],
