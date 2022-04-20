@@ -4,7 +4,7 @@ import './App.css';
 import { movieApi, Movie, MoviePayload } from "./store";
 
 function MovieApp() {
-  const { data , error, isLoading } = movieApi.useGetAllQuery();
+  const { data, error, isLoading } = movieApi.useGetAllQuery();
 
   return (
     <div className="App">
